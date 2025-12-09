@@ -6,7 +6,7 @@ Lantern, controlled by move and lighting level
 
 ### Motion Sensor HC-SR501
 
-Mote info at: 
+Mote info at:
 * https://arduinogetstarted.com/tutorials/arduino-motion-sensor
 
 ## Troubleshooting
@@ -22,7 +22,7 @@ sudo chmod a+rw /dev/ttyACM0
 
 ### Arduino Nano
 
-Arduino Nano uses USB chip CH340G. 
+Arduino Nano uses USB chip CH340G.
 
 Check that driver present in system:
 
@@ -48,13 +48,13 @@ In Ubuntu 22.10 driver conflicts with `brltty` package. Log of `dmesg`:
 [226233.920091] ch341 3-2:1.0: device disconnected
 ```
 
-Just remote this package:
+Just remove this package:
 
 ```
 sudo apt purge brltty
 ```
 
-If you get error 
+If you get error
 
 ```
 *** [upload] could not open port /dev/ttyUSB0: [Errno 13] Permission denied: '/dev/ttyUSB0'

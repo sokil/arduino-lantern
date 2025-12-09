@@ -2,7 +2,7 @@
 
 /**
  * Motion Sensor HC-SR501:
- * 
+ *
  * +--------GND--OUT--VCC--------+
  * |                             |
  * |                             |
@@ -11,32 +11,34 @@
  * - Single Mode                 |
  * |                             |
  * +-----[DISTANCE]--[TIME]------+
- * 
+ *
  * Photoresistor:
- * 
+ *
  * VCC +-----[LIGHTSENSOR]--+---[10K RESISTOR]-----+ GND
  *                            |
  *                            |
  *                            + SIGNAL
 */
-const int MOTION_SENSOR_DIGITAL_PIN = 2;
-const int LIGHT_SENSOR_ANALOG_PIN = 0;
-const int RELAY_DIGINAL_PIN = 4;
 
-int motionSensorPinCurrentState   = LOW;
-int motionSensorPinPreviousState  = LOW;
+bool motionSensorPinCurrentState = LOW;
+bool motionSensorPinPreviousState = LOW;
 
 bool isMotionSensorSwitchOffDelayEnabled = false;
 unsigned long motionSensorSwitchOffDelayStartTime;
 
-const unsigned long MOTION_SENSOR_SWITCH_OFF_DELAY_MS = 5000;
-const unsigned int LIGHT_SENSOR_THESHOLD = 80;
+#ifndef MOTION_SENSOR_SWITCH_OFF_DELAY_MS
+#define MOTION_SENSOR_SWITCH_OFF_DELAY_MS 5000
+#endif
+
+#ifndef LIGHT_SENSOR_THESHOLD
+#define LIGHT_SENSOR_THESHOLD 80
+#endif
 
 bool isMotionDetected = false;
 bool isDarknessDetected = false;
 
 void motionSensorLoopTick() {
-  motionSensorPinPreviousState = motionSensorPinCurrentState; 
+  motionSensorPinPreviousState = motionSensorPinCurrentState;
   motionSensorPinCurrentState = digitalRead(MOTION_SENSOR_DIGITAL_PIN);
 
   if (motionSensorPinPreviousState == LOW && motionSensorPinCurrentState == HIGH) {
@@ -48,17 +50,17 @@ void motionSensorLoopTick() {
     motionSensorSwitchOffDelayStartTime = millis();
   }
 
-  if (isMotionSensorSwitchOffDelayEnabled == true && (millis() - motionSensorSwitchOffDelayStartTime) >= MOTION_SENSOR_SWITCH_OFF_DELAY_MS) {
+  if (
+    isMotionSensorSwitchOffDelayEnabled == true
+    && (millis() - motionSensorSwitchOffDelayStartTime) >= MOTION_SENSOR_SWITCH_OFF_DELAY_MS
+  ) {
     isMotionSensorSwitchOffDelayEnabled = false;
-
     isMotionDetected = false;
   }
 }
 
 void lightSensorLoopTick() {
   int lightLevel = analogRead(LIGHT_SENSOR_ANALOG_PIN);
-  
-  Serial.println(lightLevel);
 
   if (lightLevel > LIGHT_SENSOR_THESHOLD) {
     isDarknessDetected = false;
@@ -79,10 +81,11 @@ void relaySwitchOff() {
 
 void setup() {
   Serial.begin(9600);
-  
+
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(RELAY_DIGINAL_PIN, OUTPUT);
   pinMode(MOTION_SENSOR_DIGITAL_PIN, INPUT);
+  pinMode(LIGHT_SENSOR_ANALOG_PIN, INPUT);
 }
 
 void loop() {
