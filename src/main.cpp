@@ -3,6 +3,16 @@
 /**
  * Motion Sensor HC-SR501:
  *
+ * detection range: 0–7 m
+ * trigger angle: 110° at distances up to 7 m
+ * recommended supply voltage: 4.5–12 V
+ * output logic voltage level: 0–3.3 V
+ * delay time: 0.3–300 seconds (adjustable)
+ * trigger mode: L – repeatable switching; H – repeatable switching
+ * current consumption: 65 mA
+ * operating temperature: −20 to +50 °C
+ * dimensions: 32 × 24 mm
+ *
  * +--------GND--OUT--VCC--------+
  * |                             |
  * |                             |
@@ -11,6 +21,7 @@
  * - Single Mode                 |
  * |                             |
  * +-----[DISTANCE]--[TIME]------+
+ *
  *
  * Photoresistor:
  *
